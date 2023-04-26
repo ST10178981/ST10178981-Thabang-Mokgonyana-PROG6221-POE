@@ -133,29 +133,34 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                         "2. 2(Double)\n" +
                         "3. 3(Triple)");
                     adder.scaleOption(int.Parse(Console.ReadLine());
-                    //For loop to change each value within the 
+                    //For loop to change each value within the array ingrediantuantArr by the factor of the given option
                     for (int i = 0; i < ingredientAmoun; i++)
                     {
-                        if (scaleOption == 1)
+                        if (adder.scaleOption == 1)
                         {
+                            // Halfing all ingrediantuantArr with confirmation message
                             scaleIngrediants = ingredientQuantArr[i] * 0,5;
                             Console.WriteLine("Scale has been halved");
                             Console.ReadLine();
                         }
-                        else if (scaleOption == 2)
+                        else if (adder.scaleOption == 2)
                         {
+                            //Doubling all ingrediantuantArr with confirmation message
                             scaleIngrediants = ingredientQuantArr[i] * 2;
                             Console.WriteLine("Quantity has been doubled");
                             Console.ReadLine();
                         }
-                        else if (scaleOption == 3)
+                        else if (adder.scaleOption == 3)
                         {
+                            //Tripling all ingrediantuantArr with confirmation message
                             scaleIngrediants = ingredientQuantArr[i] * 3;
                             Console.WriteLine("Quantity has been Tripled");
                             Console.ReadLine();
                         }
                         else
                         {
+
+                            //Message if other number is selected
                             Console.WriteLine("Invalid input");
                         }
                     }
