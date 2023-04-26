@@ -124,6 +124,48 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     Console.ReadLine();
 
                 }
+                else if (function == 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    
+                    Console.WriteLine("Please the pick the scale option you wish Use\n" +
+                        "1. O.5(Half)\n" +
+                        "2. 2(Double)\n" +
+                        "3. 3(Triple)");
+                    adder.scaleOption(int.Parse(Console.ReadLine());
+                    for (int i = 0; i < ingredientAmoun; i++)
+                    {
+                        if (scaleOption == 1)
+                        {
+                            scaleIngrediants = ingredientQuantArr[i] * 0,5;
+                            Console.WriteLine("Scale has been halved");
+                            Console.ReadLine();
+                        }
+                        else if (scaleOption == 2)
+                        {
+                            scaleIngrediants = ingredientQuantArr[i] * 2;
+                            Console.WriteLine("Quantity has been doubled");
+                            Console.ReadLine();
+                        }
+                        else if (scaleOption == 3)
+                        {
+                            scaleIngrediants = ingredientQuantArr[i] * 3;
+                            Console.WriteLine("Quantity has been Tripled");
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input");
+                        }
+                    }
+                else if (function == 4)
+                {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        for (int i = 0; i < ingredientQuantArr.Length; i++)
+                        {
+                            ingredientQuantArr
+                        }
+                    
                 
                 }
                 
