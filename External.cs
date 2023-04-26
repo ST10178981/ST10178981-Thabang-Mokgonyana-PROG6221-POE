@@ -23,7 +23,18 @@ public class External
             return this.ingredientAmount
         }
 
-   
+    //Method to retrieve value for private int 2 above
+    public void setrecipeStepsAmount(int recipeList)
+    {
+        this.recipeStepsAmountt = recipeList;
+    }
+    
+    public int getIngredientAmount()
+    {
+        return this.recipeStepsAmount
+        }
+
+    
 
 }
 
