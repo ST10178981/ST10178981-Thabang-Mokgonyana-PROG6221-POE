@@ -166,6 +166,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     }
                 else if (function == 4)
                 {
+                        //CANNOT FIND A SOULTION 
                         Console.ForegroundColor = ConsoleColor.White;
                         for (int i = 0; i < ingredientQuantArr.Length; i++)
                         {
@@ -174,16 +175,18 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     
                 } else if (function == 5)
                 {
+                        //Given arrays have their values reset by having their indexes reduced to zero so there are no values within them
                         ingredientNamesArr = new string[0];
                         recipeStepsArr = new string[0];
                         ingredientQuantArr = new double[0];
                         ingredientUnitOfMeas = new string[0];
-
+                        //Message confirming
                         Conole.WriteLine("Items cleared");
                         Console.ReadLine();
                     } else if (function == 6)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
+                        //Simple goodbye exit message with an enviroment exit method
                     Console.WriteLine("Goodbye");
                     Console.ReadLine();
                     Environment.Exit(0);
