@@ -6,9 +6,12 @@ public class External
 
     public External()
     {
+        //declaring private ints to call in the main method and solution
         private int ingredientAmount;
         private int ingredientType;
         private int scaleOption;
+
+        //Method to retrieve value for private int 1 above
 
         public void setIngredientAmount(int ingredientSum)
         {
@@ -20,25 +23,7 @@ public class External
             return this.ingredientAmount
         }
 
-    public void setrecipeStepsAmount(int recipeList)
-    {
-        this.recipeStepsAmountt = recipeList;
-    }
-
-    public int getIngredientAmount()
-    {
-        return this.recipeStepsAmount
-        }
-
-    public void setScaleOption(int scaleChoice)
-    {
-        this.scaleOption = scaleChoice;
-    }
-
-    public int getscaleOption()
-    {
-        return this.scaleOption
-        }
+   
 
 }
 
