@@ -166,9 +166,17 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                             ingredientQuantArr
                         }
                     
-                
-                }
-                
+                } else if (function == 5)
+                {
+                        ingredientNamesArr = new string[0];
+                        recipeStepsArr = new string[0];
+                        ingredientQuantArr = new double[0];
+                        ingredientUnitOfMeas = new string[0];
+
+                        Conole.WriteLine("Items cleared");
+                        Console.ReadLine();
+                    } else if (function == 6)
+                {
 
             }
 
