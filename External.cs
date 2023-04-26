@@ -17,7 +17,9 @@ public class External
         {
             this.ingredientAmount = ingredientSum;
         }
+    
 
+        //Returns and stores value for private int 1 from the main class
         public int getIngredientAmount()
         {
             return this.ingredientAmount
@@ -28,7 +30,8 @@ public class External
     {
         this.recipeStepsAmountt = recipeList;
     }
-    
+
+    //Returns and stores value for private int 1 from the main class
     public int getIngredientAmount()
     {
         return this.recipeStepsAmount
@@ -40,6 +43,7 @@ public class External
         this.scaleOption = scaleChoice;
     }
 
+    //Returns and stores value for private int 1 from the main class
     public int getscaleOption()
     {
         return this.scaleOption
