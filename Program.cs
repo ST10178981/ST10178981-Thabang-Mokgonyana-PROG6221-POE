@@ -119,7 +119,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                             }
                         }
                     }
-
+                    //Output of the strinbuilder
                     Console.WriteLine(showRecipe.ToString());
                     Console.ReadLine();
 
@@ -127,12 +127,13 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 else if (function == 3)
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
-                    
+                    //Second menu option for function 3 with third external class retrieval method
                     Console.WriteLine("Please the pick the scale option you wish Use\n" +
                         "1. O.5(Half)\n" +
                         "2. 2(Double)\n" +
                         "3. 3(Triple)");
                     adder.scaleOption(int.Parse(Console.ReadLine());
+                    //For loop to change each value within the 
                     for (int i = 0; i < ingredientAmoun; i++)
                     {
                         if (scaleOption == 1)
