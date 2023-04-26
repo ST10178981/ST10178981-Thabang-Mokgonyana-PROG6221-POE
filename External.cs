@@ -34,7 +34,16 @@ public class External
         return this.recipeStepsAmount
         }
 
-    
+    //Method to retrieve value for private int 3 above
+    public void setScaleOption(int scaleChoice)
+    {
+        this.scaleOption = scaleChoice;
+    }
+
+    public int getscaleOption()
+    {
+        return this.scaleOption
+        }
 
 }
 
