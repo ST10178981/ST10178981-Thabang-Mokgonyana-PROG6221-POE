@@ -177,6 +177,18 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                         Console.ReadLine();
                     } else if (function == 6)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Goodbye");
+                    Console.ReadLine();
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Input not valid");
+                    Console.ReadLine();
+                }
+                
 
             }
 
