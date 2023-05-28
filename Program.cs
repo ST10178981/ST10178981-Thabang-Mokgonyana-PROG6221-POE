@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
 
@@ -130,46 +131,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 }
                 else if (function == 3)
                 {
-                    /*Console.ForegroundColor = ConsoleColor.Magenta;
-                    //Second menu option for function 3 with third external class retrieval method
-                    Console.WriteLine("Please the pick the scale option you wish Use\n" +
-                        "1. O.5(Half)\n" +
-                        "2. 2(Double)\n" +
-                        "3. 3(Triple)");
-                    adder.getScaleOption(scaleOption);
-                    scaleOption = int.Parse(Console.ReadLine());
-                    adder.setscaleOption();
-                    //For loop to change each value within the array ingrediantuantArr by the factor of the given option
-                    for (int i = 0; i < ingredientAmount; i++)
-                    {
-                        if (scaleOption == 1)
-                        {
-                            // Halfing all ingrediantuantArr with confirmation message
-                            scaleIngrediants = ingredientQuantArr[i] * 0.5;
-                            Console.WriteLine("Scale has been halved");
-                            Console.ReadLine();
-                        }
-                        else if (scaleOption == 2)
-                        {
-                            //Doubling all ingrediantuantArr with confirmation message
-                            scaleIngrediants = ingredientQuantArr[i] * 2;
-                            Console.WriteLine("Quantity has been doubled");
-                            Console.ReadLine();
-                        }
-                        else if (scaleOption == 3)
-                        {
-                            //Tripling all ingrediantuantArr with confirmation message
-                            scaleIngrediants = ingredientQuantArr[i] * 3;
-                            Console.WriteLine("Quantity has been Tripled");
-                            Console.ReadLine();
-                        }
-                        else
-                        {
-
-                            //Message if other number is selected
-                            Console.WriteLine("Invalid input");
-                        }
-                    }*/
+                    
                 }
                 else if (function == 4)
                 {
@@ -231,118 +193,150 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
     class Recipe
     {
-        private String name;
-        private List<Ingredient> ingredients;
-        private List<String> steps;
-
-        public event Action<string> ExceededCalories;
-
-        private Recipe(String name, List<Ingredient> ingredients, List<string> steps)
+        string name;
+        List<Ingredient> ingredients;
+        List<RecipeStep> steps;
+        //Constructor
+        Recipe(string name)
         {
             this.name = name;
-            this.ingredients = ingredients;
-            this.steps = steps;
+            ingredients = new List<Ingredient>();
+            steps = new List<RecipeStep>();
         }
-
-        public static Recipe CreateRecipe(String name)
+        //Add ingredient method
+        void AddIngredient(string name, float quantity, UnitOfMeasurement unit, int calories, FoodGroup foodGroup)
         {
-            List<Ingredient> ingredientsList = new List<Ingredient>();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Enter an ingredient (or press Enter to finish):");
-            String ingredient = Console.ReadLine();
-
-            Console.WriteLine("Enter the quantity needed:");
-            String quantity = Console.ReadLine();
-
-            Console.WriteLine("Enter the number of calories:");
-            int calories = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter the food group:");
-            String foodGroup = Console.ReadLine();
-
-            ingredientsList.Add(new Ingredient(ingredient, quantity, calories, foodGroup));
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("Enter the steps for the recipe (one step per line):");
-            List<String> stepsList = new List<String>();
-            String step = Console.ReadLine();
-            stepsList.Add(step);
-
-
-            Recipe recipe = new Recipe(name, ingredientsList, stepsList);
-            recipe.ExceededCalories += (recipeName) => Console.WriteLine($"WARNING: Recipe {recipeName} exceeds 300 total calories!");
-
-            return recipe;
+            Ingredient ingredient = new Ingredient(name, quantity, unit, calories, foodGroup);
+            ingredients.Add(ingredient);
         }
-
-        public String ToString(double quantityFactor)
+        //Add recipe step method
+        void AddStep(int stepNumber, string description)
+        {
+            RecipeStep step = new RecipeStep(stepNumber, description);
+            steps.Add(step);
+        }
+        //Calculate total calories method
+        int CalculateTotalCalories()
         {
             int totalCalories = 0;
-
-            String recipeAsString = "Name: " + name + "\n";
-            recipeAsString += "Ingredients:\n";
-            foreach (var ingredient in ingredients)
+            foreach (Ingredient ingredient in ingredients)
             {
-                double quantity = double.Parse(ingredient.quantity) * quantityFactor;
-                totalCalories += ingredient.calories;
-                recipeAsString += $"{ingredient.ingredient}: {quantity} ({ingredient.calories} calories, {ingredient.foodGroup})\n";
+                totalCalories += ingredient.CalculateCalories();
             }
-
-            if (totalCalories > 300)
+            return totalCalories;
+        }
+        //Scaled recipe method
+        Recipe ScaledRecipe(float factor)
+        {
+            Recipe scaledRecipe = new Recipe(name);
+            foreach (Ingredient ingredient in ingredients)
             {
-                ExceededCalories?.Invoke(name);
-                recipeAsString += "\nWARNING: This recipe exceeds 300 total calories!\n";
+                float scaledQuantity = ingredient.quantity * factor;
+                scaledRecipe.AddIngredient(ingredient.name, scaledQuantity, ingredient.unit,
+                                     ingredient.caloriesPerUnit, ingredient.foodGroup);
             }
-
-            recipeAsString += $"\nTotal calories: {totalCalories}\n";
-            recipeAsString += "Steps:\n";
-            for (int i = 0; i < steps.Count; i++)
+            foreach (RecipeStep step in steps)
             {
-                recipeAsString += $"{i + 1}. {steps[i]}\n";
+                scaledRecipe.AddStep(step.StepNumber, step.Description);
             }
-
-            return recipeAsString;
+            return scaledRecipe;
         }
-
-        public string GetName()
+        //Reset quantities method
+        void ResetQuantities()
         {
-            return name;
+            foreach (Ingredient ingredient in ingredients)
+            {
+                ingredient.ResetQuantity();
+            }
         }
-
-        public List<Ingredient> GetIngredients()
+        //Get recipe string method
+        string GetRecipeString()
         {
-            return ingredients;
+            string recipeString = "Name: " + name + "\n\n";
+            recipeString += "Ingredients:\n";
+            foreach (Ingredient ingredient in ingredients)
+            {
+                recipeString += ingredient.ToString() + "\n";
+            }
+            recipeString += "\nSteps:\n";
+            foreach (RecipeStep step in steps)
+            {
+                recipeString += step.ToString() + "\n";
+            }
+            recipeString += "\nTotal Calories: " + CalculateTotalCalories();
+            return recipeString;
         }
-
-        public List<String> GetSteps()
-        {
-            return steps;
-        }
-
-        public override string ToString()
-        {
-            return ToString(1);
-        }
-
-
-
     }
 
-    class Ingredient
-    {
-        public String ingredient;
-        public String quantity;
-        public int calories;
-        public String foodGroup;
-
-        public Ingredient(String ingredient, String quantity, int calories, String foodGroup)
+        class Ingredient
         {
-            this.ingredient = ingredient;
-            this.quantity = quantity;
-            this.calories = calories;
-            this.foodGroup = foodGroup;
+            string name;
+            float quantity;
+            UnitOfMeasurement unit;
+            int caloriesPerUnit;
+            FoodGroup foodGroup;
+            //Constructor
+            Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
+            {
+                this.name = name;
+                this.quantity = quantity;
+                this.unit = unit;
+                this.caloriesPerUnit = caloriesPerUnit;
+                this.foodGroup = foodGroup;
+            }
+            //Calculate calories method
+            int CalculateCalories()
+            {
+                return caloriesPerUnit * (int)quantity;
+            }
+            //Reset quantity method
+            void ResetQuantity()
+            {
+                quantity = 1;
+            }
+            //To string method
+            override string ToString()
+            {
+                return name + ": " + quantity + " " + unit + ", " + caloriesPerUnit + " Calories, " + foodGroup;
+            }
         }
-    }
+
+        //RecipeStep class
+        class RecipeStep
+        {
+            int stepNumber;
+            string description;
+            //Constructor
+            RecipeStep(int stepNumber, string description)
+            {
+                this.stepNumber = stepNumber;
+                this.description = description;
+            }
+            //To string method
+            override string ToString()
+            {
+                return stepNumber + ". " + description;
+            }
+        }
+        //Unit of measurement enum
+        enum UnitOfMeasurement
+        {
+            Teaspoon,
+            Tablespoon,
+            Cup,
+            Gram,
+            Ounce,
+            Pound
+        }
+        //Food group enum
+        enum FoodGroup
+        {
+            Dairy,
+            Fruit,
+            Grain,
+            Protein,
+            Vegetable
+        }
 }
 
   
