@@ -70,6 +70,33 @@ public class External
         }
 
         //Unit of measurement enum
+        
+
+    /*public void setName(string character)
+    {
+    this.name = character;
+    }*/
+
+   
+
+    class Ingredient
+    {
+        string name;
+        float quantity;
+        UnitOfMeasurement unit;
+        int caloriesPerUnit;
+        FoodGroup foodGroup;
+        //Constructor
+        Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
+        {
+            this.name = name;
+            this.quantity = quantity;
+            this.unit = unit;
+            this.caloriesPerUnit = caloriesPerUnit;
+            this.foodGroup = foodGroup;
+        }
+
+        //Unit of measurement enum
         enum UnitOfMeasurement
         {
             Teaspoon,
@@ -88,45 +115,7 @@ public class External
             Protein,
             Vegetable
         }
-
-    /*public void setName(string character)
-    {
-    this.name = character;
-    }*/
-
-    string GetRecipeString()
-    {
-        string recipeString = "Name: " + name + "\n\n";
-        recipeString += "Ingredients:\n";
-        foreach (Ingredient ingredient in ingredients)
-        {
-            recipeString += ingredient.ToString() + "\n";
-        }
-        recipeString += "\nSteps:\n";
-        foreach (RecipeStep step in steps)
-        {
-            recipeString += step.ToString() + "\n";
-        }
-        recipeString += "\nTotal Calories: " + CalculateTotalCalories();
-        return recipeString;
     }
-
-    class Ingredient
-    {
-        string name;
-        float quantity;
-        UnitOfMeasurement unit;
-        int caloriesPerUnit;
-        FoodGroup foodGroup;
-        //Constructor
-        Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
-        {
-            this.name = name;
-            this.quantity = quantity;
-            this.unit = unit;
-            this.caloriesPerUnit = caloriesPerUnit;
-            this.foodGroup = foodGroup;
-        }
 
 
     }

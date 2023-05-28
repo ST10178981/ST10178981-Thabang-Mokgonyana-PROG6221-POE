@@ -28,10 +28,13 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
         static void Main(string[] args)
         {
+            List<Recipe> recipes = new List<Recipe>();
             //StringBuilder made to complie list for function 2
 
             //Object declared to call the external class
             External adder = new External();
+
+
             //value to hold while loop
             p = 1;
 
@@ -70,7 +73,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     adder.recipeName(recipeNames, recipeNameCount);
                     foreach (String name in recipeNames)
                     {
-                        Console.WriteLine("Enter the number of ingredients");
+                        /*Console.WriteLine("Enter the number of ingredients");
                         adder.getIngredientAmount(ingredientAmount);
                         ingredientAmount = Convert.ToInt32(Console.ReadLine());
                         adder.setIngredientAmount();
@@ -110,7 +113,9 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                             Console.WriteLine("Enter description for Ingredient " + (i + 1));
 
                             recipeStepsArr[i] = Console.ReadLine();
-                        }
+                        }*/
+
+                        Recipe.CreateRecipe(name);
                     }
 
 
@@ -119,36 +124,13 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 {
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    //Creating blank string value to store and display the string builder
-
-
-
-                    Console.WriteLine("-----Recipes-----");
-                    List<string> sortedRecipeNames = recipeNames.Select(r => r.GetName()).OrderBy(name => name).ToList();
-                    foreach (string name in sortedRecipeNames)
-                    {
-                        Console.WriteLine(name);
-                    }
-
-                    Console.WriteLine("Enter the name of the recipe to display details (or press Enter to go back):");
-                    string recipeName = Console.ReadLine();
-                    if (string.IsNullOrEmpty(recipeName))
-                        return;
-
-                    External selectedRecipe = recipeNames.FirstOrDefault(r => r.GetName() == recipeName);
-                    if (selectedRecipe == null)
-                    {
-                        Console.WriteLine($"No recipe found with name: {recipeName}");
-                        return;
-                    }
-
-                    Console.WriteLine(selectedRecipe.ToString());
+                    DisplayRecipes(recipes);
 
 
                 }
                 else if (function == 3)
                 {
-                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    /*Console.ForegroundColor = ConsoleColor.Magenta;
                     //Second menu option for function 3 with third external class retrieval method
                     Console.WriteLine("Please the pick the scale option you wish Use\n" +
                         "1. O.5(Half)\n" +
@@ -187,12 +169,12 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                             //Message if other number is selected
                             Console.WriteLine("Invalid input");
                         }
-                    }
+                    }*/
                 }
                 else if (function == 4)
                 {
                     //CANNOT FIND A SOULTION 
-                    
+
 
                 }
                 else if (function == 5)
@@ -219,117 +201,148 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
         }
 
-        class Recipe
+        static void DisplayRecipes(List<Recipe> recipes)
         {
-            private String name;
-            private List<Ingredient> ingredients;
-            private List<String> steps;
 
-            public event Action<string> ExceededCalories;
-
-            private Recipe(String name, List<Ingredient> ingredients, List<string> steps)
+            Console.WriteLine("============================================================");
+            Console.WriteLine("                            Recipes");
+            Console.WriteLine("============================================================");
+            List<string> sortedRecipeNames = recipes.Select(r => r.GetName()).OrderBy(name => name).ToList();
+            foreach (string name in sortedRecipeNames)
             {
-                this.name = name;
-                this.ingredients = ingredients;
-                this.steps = steps;
+                Console.WriteLine(name);
             }
 
-            public static Recipe CreateRecipe(String name)
+            Console.WriteLine("Enter the name of the recipe to display details:");
+            string recipeName = Console.ReadLine();
+            if (string.IsNullOrEmpty(recipeName))
+                return;
+
+            Recipe selectedRecipe = recipes.FirstOrDefault(recipe => recipe.GetName() == recipeName);
+            if (selectedRecipe == null)
             {
-                List<Ingredient> ingredientsList = new List<Ingredient>();
-                Console.WriteLine("Enter an ingredient (or press Enter to finish):");
-                String ingredient = Console.ReadLine();
-
-                Console.WriteLine("Enter the quantity needed:");
-                String quantity = Console.ReadLine();
-
-                Console.WriteLine("Enter the number of calories:");
-                int calories = int.Parse(Console.ReadLine());
-
-                Console.WriteLine("Enter the food group:");
-                String foodGroup = Console.ReadLine();
-
-                ingredientsList.Add(new Ingredient(ingredient, quantity, calories, foodGroup));
-                
-
-                Console.WriteLine("Enter the steps for the recipe (one step per line):");
-                List<String> stepsList = new List<String>();
-                String step = Console.ReadLine();
-                stepsList.Add(step);
-                
-
-                Recipe recipe = new Recipe(name, ingredientsList, stepsList);
-                recipe.ExceededCalories += (recipeName) => Console.WriteLine($"WARNING: Recipe {recipeName} exceeds 300 total calories!");
-
-                return recipe;
+                Console.WriteLine($"No recipe found with name: {recipeName}");
+                return;
             }
 
-            public tring ToString(double quantityFactor)
-            {
-                int totalCalories = 0;
+            Console.WriteLine(selectedRecipe.ToString());
+        }
+    }
 
-                string recipeAsString = "Name: " + name + "\n";
-                recipeAsString += "Ingredients:\n";
-                foreach (var ingredient in ingredients)
-                {
-                    double quantity = double.Parse(ingredient.quantity) * quantityFactor;
-                    totalCalories += ingredient.calories;
-                    recipeAsString += $"{ingredient.ingredient}: {quantity} ({ingredient.calories} calories, {ingredient.foodGroup})\n";
-                }
+    class Recipe
+    {
+        private String name;
+        private List<Ingredient> ingredients;
+        private List<String> steps;
 
-                if (totalCalories > 300)
-                {
-                    ExceededCalories?.Invoke(name);
-                    recipeAsString += "\nWARNING: This recipe exceeds 300 total calories!\n";
-                }
+        public event Action<string> ExceededCalories;
 
-                recipeAsString += $"\nTotal calories: {totalCalories}\n";
-                recipeAsString += "Steps:\n";
-                for (int i = 0; i < steps.Count; i++)
-                {
-                    recipeAsString += $"{i + 1}. {steps[i]}\n";
-                }
-
-                return recipeAsString;
-            }
-
-            public string GetName()
-            {
-                return name;
-            }
-
-            public List<Ingredient> GetIngredients()
-            {
-                return ingredients;
-            }
-
-            public List<string> GetSteps()
-            {
-                return steps;
-            }
-
-            public override string ToString()
-            {
-                return ToString(1);
-            }
-
-
-
+        private Recipe(String name, List<Ingredient> ingredients, List<string> steps)
+        {
+            this.name = name;
+            this.ingredients = ingredients;
+            this.steps = steps;
         }
 
-        class Ingredient
+        public static Recipe CreateRecipe(String name)
         {
-            public string ingredient;
-            public string quantity;
-            public int calories;
-            public string foodGroup;
+            List<Ingredient> ingredientsList = new List<Ingredient>();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Enter an ingredient (or press Enter to finish):");
+            String ingredient = Console.ReadLine();
 
-            public Ingredient(string ingredient, string quantity, int calories, string foodGroup)
-            {
-                this.ingredient = ingredient;
-                this.quantity = quantity;
-                this.calories = calories;
-                this.foodGroup = foodGroup;
-            }
+            Console.WriteLine("Enter the quantity needed:");
+            String quantity = Console.ReadLine();
+
+            Console.WriteLine("Enter the number of calories:");
+            int calories = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the food group:");
+            String foodGroup = Console.ReadLine();
+
+            ingredientsList.Add(new Ingredient(ingredient, quantity, calories, foodGroup));
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("Enter the steps for the recipe (one step per line):");
+            List<String> stepsList = new List<String>();
+            String step = Console.ReadLine();
+            stepsList.Add(step);
+
+
+            Recipe recipe = new Recipe(name, ingredientsList, stepsList);
+            recipe.ExceededCalories += (recipeName) => Console.WriteLine($"WARNING: Recipe {recipeName} exceeds 300 total calories!");
+
+            return recipe;
         }
+
+        public String ToString(double quantityFactor)
+        {
+            int totalCalories = 0;
+
+            String recipeAsString = "Name: " + name + "\n";
+            recipeAsString += "Ingredients:\n";
+            foreach (var ingredient in ingredients)
+            {
+                double quantity = double.Parse(ingredient.quantity) * quantityFactor;
+                totalCalories += ingredient.calories;
+                recipeAsString += $"{ingredient.ingredient}: {quantity} ({ingredient.calories} calories, {ingredient.foodGroup})\n";
+            }
+
+            if (totalCalories > 300)
+            {
+                ExceededCalories?.Invoke(name);
+                recipeAsString += "\nWARNING: This recipe exceeds 300 total calories!\n";
+            }
+
+            recipeAsString += $"\nTotal calories: {totalCalories}\n";
+            recipeAsString += "Steps:\n";
+            for (int i = 0; i < steps.Count; i++)
+            {
+                recipeAsString += $"{i + 1}. {steps[i]}\n";
+            }
+
+            return recipeAsString;
+        }
+
+        public string GetName()
+        {
+            return name;
+        }
+
+        public List<Ingredient> GetIngredients()
+        {
+            return ingredients;
+        }
+
+        public List<String> GetSteps()
+        {
+            return steps;
+        }
+
+        public override string ToString()
+        {
+            return ToString(1);
+        }
+
+
+
+    }
+
+    class Ingredient
+    {
+        public String ingredient;
+        public String quantity;
+        public int calories;
+        public String foodGroup;
+
+        public Ingredient(String ingredient, String quantity, int calories, String foodGroup)
+        {
+            this.ingredient = ingredient;
+            this.quantity = quantity;
+            this.calories = calories;
+            this.foodGroup = foodGroup;
+        }
+    }
 }
+
+  
