@@ -4,31 +4,32 @@ using System.Xml.Linq;
 
 namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 {
-    internal class Program {
+    internal class Program
+    {
 
         //Declaring values that will be used throughout the program
-        static String[] ingredientNamesArr = new String[9];
+        /*static String[] ingredientNamesArr = new String[9];
         static String[] recipeStepsArr = new String[9];
         static double[] ingredientQuantArr = new double[9];
-        static String[] ingredientUnitOfMeas = new String[9];
+        static String[] ingredientUnitOfMeas = new String[9];*/
         static int ingredientAmount;
         static int recipeStepsAmount;
         static int p;
         static int scaleOption;
         static double scaleIngrediants;
-        static string r;
-        static string character;
+        static String r;
+        static string name;
         static List<String> recipeNames = new List<String>();
         static int recipeNameCount;
         static StringBuilder showRecipe = new StringBuilder();
-        
+
 
 
 
         static void Main(string[] args)
         {
             //StringBuilder made to complie list for function 2
-            
+
             //Object declared to call the external class
             External adder = new External();
             //value to hold while loop
@@ -38,13 +39,13 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             while (p != 6)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("=====================================");
+                Console.WriteLine("============================================================");
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("WELCOME TO THE RECIPE LOGGING APPLICATION");
 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("=====================================");
+                Console.WriteLine("=========================================================");
                 //Chnging menu colour to blue
                 Console.ForegroundColor = ConsoleColor.White;
                 //Console menu list
@@ -111,18 +112,19 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                             recipeStepsArr[i] = Console.ReadLine();
                         }
                     }
-                    
-                   
-                } else if (function == 2)
+
+
+                }
+                else if (function == 2)
                 {
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     //Creating blank string value to store and display the string builder
 
-                    adder.setName(character);
+
 
                     Console.WriteLine("-----Recipes-----");
-                    List<string> sortedRecipeNames = recipeNames.Select(r => adder.GetName()).OrderBy(name => name).ToList();
+                    List<string> sortedRecipeNames = recipeNames.Select(r => r.GetName()).OrderBy(name => name).ToList();
                     foreach (string name in sortedRecipeNames)
                     {
                         Console.WriteLine(name);
@@ -190,16 +192,14 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 else if (function == 4)
                 {
                     //CANNOT FIND A SOULTION 
-                    Console.ForegroundColor = ConsoleColor.White;
-                    for (int i = 0; i < ingredientQuantArr.Length; i++)
-                    {
-                        
-                        }
-
-                } else if (function == 5)
-                {
                     
-                } else if (function == 6)
+
+                }
+                else if (function == 5)
+                {
+
+                }
+                else if (function == 6)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     //Simple goodbye exit message with an enviroment exit method
@@ -215,10 +215,128 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 }
 
 
-                }
-
             }
 
-        
-    }
-    }
+        }
+
+        class Recipe
+        {
+            private string name;
+            private List<Ingredient> ingredients;
+            private List<string> steps;
+
+            public event Action<string> ExceededCalories;
+
+            private Recipe(string name, List<Ingredient> ingredients, List<string> steps)
+            {
+                this.name = name;
+                this.ingredients = ingredients;
+                this.steps = steps;
+            }
+
+            public static Recipe CreateRecipe(string name)
+            {
+                List<Ingredient> ingredientsList = new List<Ingredient>();
+                while (true)
+                {
+                    Console.WriteLine("Enter an ingredient (or press Enter to finish):");
+                    string ingredient = Console.ReadLine();
+
+                    Console.WriteLine("Enter the quantity needed:");
+                    string quantity = Console.ReadLine();
+
+                    Console.WriteLine("Enter the number of calories:");
+                    int calories = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Enter the food group:");
+                    string foodGroup = Console.ReadLine();
+
+                    ingredientsList.Add(new Ingredient(ingredient, quantity, calories, foodGroup));
+                }
+
+                Console.WriteLine("Enter the steps for the recipe (one step per line):");
+                List<string> stepsList = new List<string>();
+                while (true)
+                {
+                    string step = Console.ReadLine();
+                    if (string.IsNullOrEmpty(step))
+                        break;
+
+                    stepsList.Add(step);
+                }
+
+                Recipe recipe = new Recipe(name, ingredientsList, stepsList);
+                recipe.ExceededCalories += (recipeName) => Console.WriteLine($"WARNING: Recipe {recipeName} exceeds 300 total calories!");
+
+                return recipe;
+            }
+
+            public string ToString(double quantityFactor)
+            {
+                int totalCalories = 0;
+
+                string recipeAsString = "Name: " + name + "\n";
+                recipeAsString += "Ingredients:\n";
+                foreach (var ingredient in ingredients)
+                {
+                    double quantity = double.Parse(ingredient.quantity) * quantityFactor;
+                    totalCalories += ingredient.calories;
+                    recipeAsString += $"{ingredient.ingredient}: {quantity} ({ingredient.calories} calories, {ingredient.foodGroup})\n";
+                }
+
+                if (totalCalories > 300)
+                {
+                    ExceededCalories?.Invoke(name);
+                    recipeAsString += "\nWARNING: This recipe exceeds 300 total calories!\n";
+                }
+
+                recipeAsString += $"\nTotal calories: {totalCalories}\n";
+                recipeAsString += "Steps:\n";
+                for (int i = 0; i < steps.Count; i++)
+                {
+                    recipeAsString += $"{i + 1}. {steps[i]}\n";
+                }
+
+                return recipeAsString;
+            }
+
+            public string GetName()
+            {
+                return name;
+            }
+
+            public List<Ingredient> GetIngredients()
+            {
+                return ingredients;
+            }
+
+            public List<string> GetSteps()
+            {
+                return steps;
+            }
+
+            public override string ToString()
+            {
+                return ToString(1);
+            }
+
+
+
+        }
+
+        class Ingredient
+        {
+            public string ingredient;
+            public string quantity;
+            public int calories;
+            public string foodGroup;
+
+            public Ingredient(string ingredient, string quantity, int calories, string foodGroup)
+            {
+                this.ingredient = ingredient;
+                this.quantity = quantity;
+                this.calories = calories;
+                this.foodGroup = foodGroup;
+            }
+        }
+}

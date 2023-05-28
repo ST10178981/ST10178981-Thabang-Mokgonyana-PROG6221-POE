@@ -89,14 +89,45 @@ public class External
             Vegetable
         }
 
-        public void setName(string character)
+    /*public void setName(string character)
+    {
+    this.name = character;
+    }*/
+
+    string GetRecipeString()
+    {
+        string recipeString = "Name: " + name + "\n\n";
+        recipeString += "Ingredients:\n";
+        foreach (Ingredient ingredient in ingredients)
         {
-        this.name = character;
+            recipeString += ingredient.ToString() + "\n";
+        }
+        recipeString += "\nSteps:\n";
+        foreach (RecipeStep step in steps)
+        {
+            recipeString += step.ToString() + "\n";
+        }
+        recipeString += "\nTotal Calories: " + CalculateTotalCalories();
+        return recipeString;
+    }
+
+    class Ingredient
+    {
+        string name;
+        float quantity;
+        UnitOfMeasurement unit;
+        int caloriesPerUnit;
+        FoodGroup foodGroup;
+        //Constructor
+        Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
+        {
+            this.name = name;
+            this.quantity = quantity;
+            this.unit = unit;
+            this.caloriesPerUnit = caloriesPerUnit;
+            this.foodGroup = foodGroup;
         }
 
-        public string GetName()
-        {
-            return name;
-        }
-}
+
+    }
 
