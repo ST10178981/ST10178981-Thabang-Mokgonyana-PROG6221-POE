@@ -58,63 +58,15 @@ public class External
             return this.scaleChoice;
         }
 
-        public void recipeName(List <String> recipeNames, int recipeNameCount)
-        {
-        
-            for (int i = 0; i < recipeNameCount; i++)
-            {
-                Console.WriteLine("Please enter the name of the recipe");
-                recipeNames.Add(Console.ReadLine());
-            }
-        
-        }
-
-        //Unit of measurement enum
-        
-
-    /*public void setName(string character)
+    public void recipeName(List<String> recipeNames, int recipeNameCount)
     {
-    this.name = character;
-    }*/
 
-   
-
-    class Ingredient
-    {
-        string name;
-        float quantity;
-        UnitOfMeasurement unit;
-        int caloriesPerUnit;
-        FoodGroup foodGroup;
-        //Constructor
-        Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
+        for (int i = 0; i < recipeNameCount; i++)
         {
-            this.name = name;
-            this.quantity = quantity;
-            this.unit = unit;
-            this.caloriesPerUnit = caloriesPerUnit;
-            this.foodGroup = foodGroup;
+            Console.WriteLine("Please enter the name of the recipe");
+            recipeNames.Add(Console.ReadLine());
         }
 
-        //Unit of measurement enum
-        enum UnitOfMeasurement
-        {
-            Teaspoon,
-            Tablespoon,
-            Cup,
-            Gram,
-            Ounce,
-            Pound
-        }
-        //Food group enum
-        enum FoodGroup
-        {
-            Dairy,
-            Fruit,
-            Grain,
-            Protein,
-            Vegetable
-        }
     }
 
 
