@@ -93,7 +93,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 }
                 else if (function == 4)
                 {
-                    //CANNOT FIND A SOULTION 
+                    
 
 
                 }
@@ -195,7 +195,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
             foreach (RecipeStep step in steps)
             {
-                scaledRecipe.AddStep(step.StepNumber, step.Description);
+                scaledRecipe.AddStep(step.stepNumber, step.description);
             }
             return scaledRecipe;
         }
@@ -224,17 +224,22 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             recipeString += "\nTotal Calories: " + CalculateTotalCalories();
             return recipeString;
         }
+
+        public string GetName()
+        {
+            return name;
+        }
     }
 
         class Ingredient
         {
-            string name;
-            float quantity;
-            UnitOfMeasurement unit;
-            int caloriesPerUnit;
-            FoodGroup foodGroup;
+            public string name;
+            public float quantity;
+            public UnitOfMeasurement unit;
+            public int caloriesPerUnit;
+            public FoodGroup foodGroup;
             //Constructor
-            Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
+            public Ingredient(string name, float quantity, UnitOfMeasurement unit, int caloriesPerUnit, FoodGroup foodGroup)
             {
                 this.name = name;
                 this.quantity = quantity;
@@ -243,17 +248,17 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 this.foodGroup = foodGroup;
             }
             //Calculate calories method
-            int CalculateCalories()
+            public int CalculateCalories()
             {
                 return caloriesPerUnit * (int)quantity;
             }
             //Reset quantity method
-            void ResetQuantity()
+            public void ResetQuantity()
             {
                 quantity = 1;
             }
             //To string method
-            override string ToString()
+            override public string ToString()
             {
                 return name + ": " + quantity + " " + unit + ", " + caloriesPerUnit + " Calories, " + foodGroup;
             }
@@ -262,16 +267,16 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         //RecipeStep class
         class RecipeStep
         {
-            int stepNumber;
-            string description;
+            public int stepNumber;
+            public string description;
             //Constructor
-            RecipeStep(int stepNumber, string description)
+            public RecipeStep(int stepNumber, string description)
             {
                 this.stepNumber = stepNumber;
                 this.description = description;
             }
             //To string method
-            override string ToString()
+            override public string ToString()
             {
                 return stepNumber + ". " + description;
             }
