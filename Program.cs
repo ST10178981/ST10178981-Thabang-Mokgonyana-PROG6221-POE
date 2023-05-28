@@ -74,49 +74,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     adder.recipeName(recipeNames, recipeNameCount);
                     foreach (String name in recipeNames)
                     {
-                        /*Console.WriteLine("Enter the number of ingredients");
-                        adder.getIngredientAmount(ingredientAmount);
-                        ingredientAmount = Convert.ToInt32(Console.ReadLine());
-                        adder.setIngredientAmount();
-
-                        //for loop iterting the desired output message prompting the user to enter values and storing them accoding to the above given value
-                        for (int i = 0; i < ingredientAmount; i++)
-                        {
-
-                            Console.WriteLine("Enter the name of the ingredient");
-
-                            ingredientNamesArr[i] = Console.ReadLine();
-
-
-                            Console.WriteLine("Enter the Quantity of the ingredient");
-
-                            ingredientQuantArr[i] = Convert.ToDouble(Console.ReadLine());
-
-
-                            Console.WriteLine("Enter the Unit of measurement(kg,ml,g,l)");
-
-                            ingredientUnitOfMeas[i] = Console.ReadLine();
-
-                        }
-
-                        //Changing colour once again to gray
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        //Asking user for set value and calling external int to retrieve the value and store it
-                        Console.WriteLine("Enter the number of steps for the recipe");
-
-                        adder.getrecipeStepsAmount(recipeStepsAmount);
-                        recipeStepsAmount = Convert.ToInt32(Console.ReadLine());
-                        adder.setrecipeStepsAmount();
-
-                        for (int i = 0; i < recipeStepsAmount; i++)
-                        {
-
-                            Console.WriteLine("Enter description for Ingredient " + (i + 1));
-
-                            recipeStepsArr[i] = Console.ReadLine();
-                        }*/
-
-                        Recipe.CreateRecipe(name);
+                        
                     }
 
 
