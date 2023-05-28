@@ -221,49 +221,42 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
         class Recipe
         {
-            private string name;
+            private String name;
             private List<Ingredient> ingredients;
-            private List<string> steps;
+            private List<String> steps;
 
             public event Action<string> ExceededCalories;
 
-            private Recipe(string name, List<Ingredient> ingredients, List<string> steps)
+            private Recipe(String name, List<Ingredient> ingredients, List<string> steps)
             {
                 this.name = name;
                 this.ingredients = ingredients;
                 this.steps = steps;
             }
 
-            public static Recipe CreateRecipe(string name)
+            public static Recipe CreateRecipe(String name)
             {
                 List<Ingredient> ingredientsList = new List<Ingredient>();
-                while (true)
-                {
-                    Console.WriteLine("Enter an ingredient (or press Enter to finish):");
-                    string ingredient = Console.ReadLine();
+                Console.WriteLine("Enter an ingredient (or press Enter to finish):");
+                String ingredient = Console.ReadLine();
 
-                    Console.WriteLine("Enter the quantity needed:");
-                    string quantity = Console.ReadLine();
+                Console.WriteLine("Enter the quantity needed:");
+                String quantity = Console.ReadLine();
 
-                    Console.WriteLine("Enter the number of calories:");
-                    int calories = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the number of calories:");
+                int calories = int.Parse(Console.ReadLine());
 
-                    Console.WriteLine("Enter the food group:");
-                    string foodGroup = Console.ReadLine();
+                Console.WriteLine("Enter the food group:");
+                String foodGroup = Console.ReadLine();
 
-                    ingredientsList.Add(new Ingredient(ingredient, quantity, calories, foodGroup));
-                }
+                ingredientsList.Add(new Ingredient(ingredient, quantity, calories, foodGroup));
+                
 
                 Console.WriteLine("Enter the steps for the recipe (one step per line):");
-                List<string> stepsList = new List<string>();
-                while (true)
-                {
-                    string step = Console.ReadLine();
-                    if (string.IsNullOrEmpty(step))
-                        break;
-
-                    stepsList.Add(step);
-                }
+                List<String> stepsList = new List<String>();
+                String step = Console.ReadLine();
+                stepsList.Add(step);
+                
 
                 Recipe recipe = new Recipe(name, ingredientsList, stepsList);
                 recipe.ExceededCalories += (recipeName) => Console.WriteLine($"WARNING: Recipe {recipeName} exceeds 300 total calories!");
@@ -271,7 +264,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 return recipe;
             }
 
-            public string ToString(double quantityFactor)
+            public tring ToString(double quantityFactor)
             {
                 int totalCalories = 0;
 
