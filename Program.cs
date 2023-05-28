@@ -16,16 +16,16 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         static double scaleIngrediants;
         static List<String> recipeNames = new List<String>();
         static int recipeNameCount;
-        
+        float factor;
 
 
 
 
+        //main program that houses the console and 
         static void Main(string[] args)
         {
+            //List object that forms the backbone of the new program
             List<Recipe> recipes = new List<Recipe>();
-            //StringBuilder made to complie list for function 2
-
             //Object declared to call the external class
             External adder = new External();
 
@@ -78,7 +78,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 {
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    DisplayRecipes(recipes);
+                    
 
 
                 }
@@ -115,33 +115,6 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
 
         }
-
-        static void DisplayRecipes(List<Recipe> recipes)
-        {
-
-            Console.WriteLine("============================================================");
-            Console.WriteLine("                            Recipes");
-            Console.WriteLine("============================================================");
-            List<string> sortedRecipeNames = recipes.Select(r => r.GetName()).OrderBy(name => name).ToList();
-            foreach (string name in sortedRecipeNames)
-            {
-                Console.WriteLine(name);
-            }
-
-            Console.WriteLine("Enter the name of the recipe to display details:");
-            string recipeName = Console.ReadLine();
-            if (string.IsNullOrEmpty(recipeName))
-                return;
-
-            Recipe selectedRecipe = recipes.FirstOrDefault(recipe => recipe.GetName() == recipeName);
-            if (selectedRecipe == null)
-            {
-                Console.WriteLine($"No recipe found with name: {recipeName}");
-                return;
-            }
-
-            Console.WriteLine(selectedRecipe.ToString());
-        }
     }
 
     class Recipe
@@ -149,6 +122,8 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         string name;
         List<Ingredient> ingredients;
         List<RecipeStep> steps;
+
+        public event Action<string> ExceededCalories;
         //Constructor
         Recipe(string name)
         {
@@ -168,7 +143,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             RecipeStep step = new RecipeStep(stepNumber, description);
             steps.Add(step);
         }
-        //Calculate total calories method
+        //method to calculate the total calories
         int CalculateTotalCalories()
         {
             int totalCalories = 0;
@@ -178,8 +153,8 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
             return totalCalories;
         }
-        //Scaled recipe method
-        Recipe ScaledRecipe(float factor)
+        // method to scale the recipes
+        public Recipe ScaledRecipe(float factor)
         {
             Recipe scaledRecipe = new Recipe(name);
             foreach (Ingredient ingredient in ingredients)
@@ -195,7 +170,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             return scaledRecipe;
         }
         //Reset quantities method
-        void ResetQuantities()
+        public void ResetQuantities()
         {
             foreach (Ingredient ingredient in ingredients)
             {
@@ -203,7 +178,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
         }
         //Get recipe string method
-        string GetRecipeString()
+        public string GetRecipeString()
         {
             string recipeString = "Name: " + name + "\n\n";
             recipeString += "Ingredients:\n";
@@ -256,7 +231,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             //To string method
             override public string ToString()
             {
-                return name + ": " + quantity + " " + unit + ", " + caloriesPerUnit + " Calories, " + foodGroup;
+                return name + ": " + quantity + " " + unit + ", " + caloriesPerUnit + " kcal, " + foodGroup;
             }
         }
 
