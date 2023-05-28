@@ -9,20 +9,14 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
     {
 
         //Declaring values that will be used throughout the program
-        /*static String[] ingredientNamesArr = new String[9];
-        static String[] recipeStepsArr = new String[9];
-        static double[] ingredientQuantArr = new double[9];
-        static String[] ingredientUnitOfMeas = new String[9];*/
         static int ingredientAmount;
         static int recipeStepsAmount;
         static int p;
         static int scaleOption;
         static double scaleIngrediants;
-        static String r;
-        static string name;
         static List<String> recipeNames = new List<String>();
         static int recipeNameCount;
-        static StringBuilder showRecipe = new StringBuilder();
+        
 
 
 
@@ -40,8 +34,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             p = 1;
 
             //While loop to make sure the program runs until the exit option is choosen
-            while (p != 6)
-            {
+            
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("============================================================");
 
@@ -50,7 +43,9 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("=========================================================");
-                //Chnging menu colour to blue
+            //Chnging menu colour to white
+            while (p != 6)
+            {
                 Console.ForegroundColor = ConsoleColor.White;
                 //Console menu list
                 Console.WriteLine("Please select a function below\n" +
@@ -224,6 +219,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             recipeString += "\nTotal Calories: " + CalculateTotalCalories();
             return recipeString;
         }
+
 
         public string GetName()
         {
