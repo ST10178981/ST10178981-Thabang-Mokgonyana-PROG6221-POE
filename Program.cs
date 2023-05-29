@@ -54,7 +54,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("=========================================================");
             //Chnging menu colour to white
-            while (p != 6)
+            while (p != 7)
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 //Console menu list
@@ -64,7 +64,8 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     "3. Scale the unit of measurement\n" +
                     "4. Reset the changed scale\n" +
                     "5. Clear recipe\n" +
-                    "6. Exit application");
+                    "6. Calcualte total calories\n" +
+                    "7. Exit application");
                 //int value used to track which option the user selected
                 int function = int.Parse(Console.ReadLine());
 
@@ -122,7 +123,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 else if (function == 4)
                 {
                     
-
+                    recipe.ResetQuantities();
 
                 }
                 else if (function == 5)
@@ -130,6 +131,10 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
                 }
                 else if (function == 6)
+                {
+                    
+                }
+                else if (function == 7)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     //Simple goodbye exit message with an enviroment exit method
