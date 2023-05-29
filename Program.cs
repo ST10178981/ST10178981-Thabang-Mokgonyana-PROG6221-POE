@@ -23,6 +23,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         static UnitOfMeasurement unit;
         static int calories;
         static FoodGroup foodGroup;
+        
 
 
 
@@ -35,6 +36,9 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
             //Object declared to call the external class
             External adder = new External();
+
+            Recipe recipe = new Recipe();
+            
             
             //value to hold while loop
             p = 1;
@@ -77,7 +81,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     {
                         Console.WriteLine("How many ingredients do you wish to log for recipe " + name);
                         ingredientAmount = Convert.ToInt32(Console.ReadLine());
-
+                        
                         for(int i = 0; i < ingredientAmount; i++)
                         {
                             
@@ -110,7 +114,10 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 }
                 else if (function == 3)
                 {
-                    
+                    foreach(String name in recipeNames)
+                    {
+                        recipe.ScaledRecipe(factor);
+                    }
                 }
                 else if (function == 4)
                 {
@@ -148,14 +155,14 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             List<string> sortedRecipeNames = recipes.Select(r => r.GetName()).OrderBy(name => name).ToList();
             foreach (string name in sortedRecipeNames)
             {
+                Console.BackgroundColor = ConsoleColor.White;
                 Console.WriteLine(name);
             }
-
-            Console.WriteLine("Enter the name of the recipe to display details (or press Enter to go back):");
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Enter the name of the recipe to display details:");
             string recipeName = Console.ReadLine();
-            if (string.IsNullOrEmpty(recipeName))
-                return;
 
+            Console.BackgroundColor = ConsoleColor.Cyan;
             Recipe selectedRecipe = recipes.FirstOrDefault(recipe => recipe.GetName() == recipeName);
             if (selectedRecipe == null)
             {
@@ -168,8 +175,12 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
     }
 }
 
-    class Recipe
+    internal class Recipe
     {
+        public Recipe()
+    {
+
+    }
 
         string name;
         List<Ingredient> ingredients;
@@ -270,8 +281,12 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         }
     }
 
-        class Ingredient
+        internal class Ingredient
         {
+            public Ingredient()
+            {
+
+            }
             public string name;
             public float quantity;
             public UnitOfMeasurement unit;
@@ -304,8 +319,12 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         }
 
         //RecipeStep class
-        class RecipeStep
+        internal class RecipeStep
         {
+            public RecipeStep()
+            {
+
+            }
             public int stepNumber;
             public string description;
             //Constructor
