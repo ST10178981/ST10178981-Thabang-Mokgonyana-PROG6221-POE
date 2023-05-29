@@ -23,7 +23,9 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         static UnitOfMeasurement unit;
         static int calories;
         static FoodGroup foodGroup;
-        
+        static string description;
+        static int stepNumber;
+
 
 
 
@@ -63,7 +65,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     "2. Display the full recipe\n" +
                     "3. Scale the unit of measurement\n" +
                     "4. Reset the changed scale\n" +
-                    "5. Clear recipe\n" +
+                    "5. Clear recipes\n" +
                     "6. Calcualte total calories\n" +
                     "7. Exit application");
                 //int value used to track which option the user selected
@@ -85,7 +87,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                         
                         for(int i = 0; i < ingredientAmount; i++)
                         {
-                            
+                            recipe.AddIngredient(name, quantity, unit, calories, foodGroup);
                         }
 
                         Console.WriteLine("How many steps are are need for recipe " + name);
@@ -93,7 +95,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
 
                         for(int i = 0; i < recipeStepsAmount; i++)
                         {
-
+                            recipe.AddStep(stepNumber, description);
                         }
 
                     }
@@ -115,24 +117,43 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 }
                 else if (function == 3)
                 {
-                    foreach(String name in recipeNames)
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("Please enter");
+                    foreach (String name in recipeNames)
                     {
                         recipe.ScaledRecipe(factor);
                     }
                 }
                 else if (function == 4)
                 {
-                    
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                     recipe.ResetQuantities();
 
                 }
                 else if (function == 5)
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("You are aboout to clear the contents of your recipes. Are you sure you wish to delete all the recipes\n\n");
+                    Console.WriteLine("Press Y if you wish to proceed. Press anything else to return to the console menu.");
+                    String delChoice = Console.ReadLine();
 
+                    if (delChoice.Equals("y"))
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        recipes.ToList().Clear();
+
+                        
+                        Console.WriteLine("Recipes have been cleared");
+                        
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else if (function == 6)
                 {
-                    
+                    recipe.CalculateTotalCalories();
                 }
                 else if (function == 7)
                 {
@@ -176,6 +197,10 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
 
             Console.WriteLine(selectedRecipe.ToString());
+            foreach(Recipe recipe in recipes)
+            {
+                recipe.GetRecipeString();
+            }
         }
     }
 }
@@ -183,9 +208,9 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
     internal class Recipe
     {
         public Recipe()
-    {
+        {
 
-    }
+        }
 
         string name;
         List<Ingredient> ingredients;
@@ -201,7 +226,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         }
         //Add ingredient method
 
-        void AddIngredient(string name, float quantity, UnitOfMeasurement unit, int calories, FoodGroup foodGroup)
+        public void AddIngredient(string name, float quantity, UnitOfMeasurement unit, int calories, FoodGroup foodGroup)
         {
             Console.WriteLine("Enter the name of ingredient");
             name= Console.ReadLine();
@@ -209,26 +234,79 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             Console.WriteLine("Enter the quantity of the ingredient");
             quantity = float.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter the name Unit of mesurement(Teaspoon, Tablespoon, Cup, Gram, Ounce, Pound)");
-            
+            Console.WriteLine("Enter the name Unit of mesurement(Select 1- 6 for one of the following units: Teaspoon, Tablespoon, Cup, Gram, Ounce, Pound)");
+            int unitChoice = int.Parse(Console.ReadLine());
+            if(unitChoice == 1)
+            {
+                unit = UnitOfMeasurement.Teaspoon;
+            }else if(unitChoice == 2)
+            {
+                unit = UnitOfMeasurement.Tablespoon;
+            }
+            else if (unitChoice == 3)
+            {
+                unit = UnitOfMeasurement.Cup;
+            }
+            else if (unitChoice == 4)
+            {
+                unit = UnitOfMeasurement.Gram;
+            }
+            else if (unitChoice == 5)
+            {
+                unit = UnitOfMeasurement.Ounce;
+            }
+            else if (unitChoice == 6)
+            {
+            unit = UnitOfMeasurement.Pound;
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice");
+            }
+
 
             Console.WriteLine("Enter the name of ingredient");
             calories = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Enter the food group of the ingredient(Dairy, Fruit, Grain, Protein, Vegetable)");
-            
+            int foodChoice = int.Parse(Console.ReadLine());
+            if (foodChoice == 1)
+            {
+                foodGroup = FoodGroup.Vegetable;
+            }
+            else if (foodChoice == 2)
+            {
+                foodGroup = FoodGroup.Fruit;
+            }
+            else if (foodChoice == 3)
+            {
+                foodGroup = FoodGroup.Grain;
+            }
+            else if (foodChoice == 4)
+            {
+                foodGroup = FoodGroup.Protein;
+            }
+            else if (foodChoice == 5)
+            {
+                foodGroup = FoodGroup.Vegetable;
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice");
+            }
 
-            Ingredient ingredient = new Ingredient(name, quantity, unit, calories, foodGroup);
+        Ingredient ingredient = new Ingredient(name, quantity, unit, calories, foodGroup);
             ingredients.Add(ingredient);
         }
         //Add recipe step method
-        void AddStep(int stepNumber, string description)
+        public void AddStep(int stepNumber, string description)
         {
             RecipeStep step = new RecipeStep(stepNumber, description);
+            Console.WriteLine("Enter step{i+1}");
             steps.Add(step);
         }
         //method to calculate the total calories
-        int CalculateTotalCalories()
+        public int CalculateTotalCalories()
         {
             int totalCalories = 0;
             foreach (Ingredient ingredient in ingredients)
@@ -278,6 +356,18 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             recipeString += "\nTotal Calories: " + CalculateTotalCalories();
             return recipeString;
         }
+    public void deleteLists()
+    {
+        foreach(Ingredient ingredient in ingredients)
+        {
+            
+        }
+
+        foreach(RecipeStep step in steps)
+        {
+            ;
+        }
+    }
 
 
         public string GetName()
@@ -338,6 +428,9 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 this.stepNumber = stepNumber;
                 this.description = description;
             }
+
+            
+
             //To string method
             override public string ToString()
             {
