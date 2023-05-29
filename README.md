@@ -18,6 +18,6 @@ Option 6 terminates the program
 
 each option has a corresponding number tied to it shown on the console menu it's just a matter of picking it
 
-
+My lecturer said to add colour so multiples colours show up for each option and my formatting according to her feedback so that each menu option executes. my program actually run nows .
 Link to github
 https://github.com/ST10178981/ST10178981-Thabang-Mokgonyana-PROG6221-POE.git
