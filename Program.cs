@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Transactions;
 using System.Xml.Linq;
 
 namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
@@ -16,7 +17,12 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         static double scaleIngrediants;
         static List<String> recipeNames = new List<String>();
         static int recipeNameCount;
-        float factor;
+        static float factor;
+        static string name;
+        static int quantity;
+        static UnitOfMeasurement unit;
+        static int calories;
+        static FoodGroup foodGroup;
 
 
 
@@ -26,10 +32,10 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         {
             //List object that forms the backbone of the new program
             List<Recipe> recipes = new List<Recipe>();
+
             //Object declared to call the external class
             External adder = new External();
-
-
+            
             //value to hold while loop
             p = 1;
 
@@ -69,7 +75,22 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                     adder.recipeName(recipeNames, recipeNameCount);
                     foreach (String name in recipeNames)
                     {
-                        
+                        Console.WriteLine("How many ingredients do you wish to log for recipe " + name);
+                        ingredientAmount = Convert.ToInt32(Console.ReadLine());
+
+                        for(int i = 0; i < ingredientAmount; i++)
+                        {
+                            
+                        }
+
+                        Console.WriteLine("How many steps are are need for recipe " + name);
+                        recipeStepsAmount = Convert.ToInt32(Console.ReadLine());
+
+                        for(int i = 0; i < recipeStepsAmount; i++)
+                        {
+
+                        }
+
                     }
 
 
@@ -78,7 +99,12 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
                 {
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    
+                    recipeNames.Sort();
+
+                    foreach(String name in recipeNames)
+                    {
+                        DisplayRecipes(recipes);
+                    }
 
 
                 }
@@ -115,10 +141,36 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
 
         }
+
+        static void DisplayRecipes(List<Recipe> recipes)
+        {
+            Console.WriteLine("-----Recipes-----");
+            List<string> sortedRecipeNames = recipes.Select(r => r.GetName()).OrderBy(name => name).ToList();
+            foreach (string name in sortedRecipeNames)
+            {
+                Console.WriteLine(name);
+            }
+
+            Console.WriteLine("Enter the name of the recipe to display details (or press Enter to go back):");
+            string recipeName = Console.ReadLine();
+            if (string.IsNullOrEmpty(recipeName))
+                return;
+
+            Recipe selectedRecipe = recipes.FirstOrDefault(recipe => recipe.GetName() == recipeName);
+            if (selectedRecipe == null)
+            {
+                Console.WriteLine($"No recipe found with name: {recipeName}");
+                return;
+            }
+
+            Console.WriteLine(selectedRecipe.ToString());
+        }
     }
+}
 
     class Recipe
     {
+
         string name;
         List<Ingredient> ingredients;
         List<RecipeStep> steps;
@@ -132,8 +184,24 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             steps = new List<RecipeStep>();
         }
         //Add ingredient method
+
         void AddIngredient(string name, float quantity, UnitOfMeasurement unit, int calories, FoodGroup foodGroup)
         {
+            Console.WriteLine("Enter the name of ingredient");
+            name= Console.ReadLine();
+
+            Console.WriteLine("Enter the quantity of the ingredient");
+            quantity = float.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the name Unit of mesurement(Teaspoon, Tablespoon, Cup, Gram, Ounce, Pound)");
+            
+
+            Console.WriteLine("Enter the name of ingredient");
+            calories = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Enter the food group of the ingredient(Dairy, Fruit, Grain, Protein, Vegetable)");
+            
+
             Ingredient ingredient = new Ingredient(name, quantity, unit, calories, foodGroup);
             ingredients.Add(ingredient);
         }
@@ -255,22 +323,22 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         //Unit of measurement enum
         enum UnitOfMeasurement
         {
-            Teaspoon,
-            Tablespoon,
-            Cup,
-            Gram,
-            Ounce,
-            Pound
+            Teaspoon = 1,
+            Tablespoon = 2,
+            Cup = 3,
+            Gram = 4,
+            Ounce = 5,
+            Pound = 6
         }
         //Food group enum
         enum FoodGroup
         {
-            Dairy,
-            Fruit,
-            Grain,
-            Protein,
-            Vegetable
+            Dairy = 1,
+            Fruit = 2,
+            Grain = 3,
+            Protein = 4,
+            Vegetable = 5
         }
-}
+
 
   
