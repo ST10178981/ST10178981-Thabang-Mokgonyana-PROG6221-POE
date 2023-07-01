@@ -213,8 +213,8 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
         }
 
         string name;
-        List<Ingredient> ingredients;
-        List<RecipeStep> steps;
+        static List<Ingredient> ingredients;
+        static List<RecipeStep> steps;
 
         public event Action<string> ExceededCalories;
         //Constructor
@@ -265,7 +265,7 @@ namespace ST10178981_Thabang_Mokgonyana_PROG6221_POE
             }
 
 
-            Console.WriteLine("Enter the name of ingredient");
+            Console.WriteLine("Enter the number of calories");
             calories = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Enter the food group of the ingredient(Dairy, Fruit, Grain, Protein, Vegetable)");
