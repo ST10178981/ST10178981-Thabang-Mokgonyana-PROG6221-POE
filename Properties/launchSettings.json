@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ST10178981 Thabang Mokgonyana PROG6221 POE": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}
